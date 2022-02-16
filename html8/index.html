@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="./app.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <nav>
+      <!-- Navigational anchors elments are often wrapped in an unordered list -->
+      <ul>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <p>
+      With HTML5, many elements were introduced to better indicate meaning of
+      the content.
+    </p>
+    <p>The <code>em</code> element to <em>indicates emphasized</em> content.</p>
+    <p>
+      The <code>strong</code> element
+      <strong>indicates strongly emphasized</strong> content.
+    </p>
+
+    <hgroup>
+      <h1>My Amazing Website</h1>
+      <h2>More information about my website</h2>
+    </hgroup>
+
+    <article>
+      <h1>Cryptocurrency: What is it?</h1>
+      <!-- Article contents -->
+    </article>
+
+    <section>
+      <h2>Chapter 1</h2>
+      <!-- Chapter contents -->
+    </section>
+    <section>
+      <h2>Chapter 2</h2>
+      <!-- Chapter contents -->
+    </section>
+    <section>
+      <h2>Chapter 3</h2>
+      <!-- Chapter contents -->
+    </section>
+    <section>
+      <h2>Chapter 4</h2>
+      <!-- Chapter contents -->
+    </section>
+
+    <article>
+      <h1>How to Make Lasagna</h1>
+      <section>
+        <h2>Overview</h2>
+        <!-- section contents -->
+      </section>
+      <section>
+        <h2>Ingredients</h2>
+        <!-- section contents -->
+      </section>
+      <section>
+        <h2>Instructions</h2>
+        <!-- section contents -->
+      </section>
+    </article>
+
+    <p>The party begins at <time datetime="19:00">seven o'clock</time>!</p>
+
+    <!-- date of publication -->
+    <h1>My Blog Entry</h1>
+    <h2><time datetime="2015-05-07">May 7, 2015</time></h2>
+
+    <aside>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa expedita
+      praesentium amet voluptatibus rerum culpa. Commodi, est reprehenderit
+      dignissimos, similique id excepturi deleniti beatae quas tenetur, soluta
+      atque voluptatibus? Repudiandae?
+    </aside>
+
+    <table>
+      <tr>
+        <td>Column 1</td>
+        <td>Column 2</td>
+        <td>Column 3</td>
+      </tr>
+    </table>
+
+    <form>
+      <label for="firstName">First Name:</label>
+      <input type="text" name="firstName" id="firstName" />
+      <label for="lastName">Last Name:</label>
+      <input type="text" name="lastName" id="lastName" />
+      <!-- This button does nothing by default -->
+      <button type="button">Do Nothing</button>
+    </form>
+
+    <form>
+      <label for="selector">
+        <p>
+          A <code>select</code> element allows users to input from a selection:
+        </p>
+        <select id="selector">
+          <option>Option 1</option>
+          <option>Option 2</option>
+          <option selected>Option 3</option>
+          <option>Option 4</option>
+        </select>
+      </label>
+    </form>
+
+    <form>
+      <label for="selector">
+        <p>
+          A <code>select</code> element allows users to input from a selection:
+        </p>
+        <select id="selector">
+          <optgroup label="Group 1">
+            <option>Option 1</option>
+            <option>Option 2</option>
+          </optgroup>
+          <optgroup label="Group 2">
+            <option>Option 3</option>
+            <option>Option 4</option>
+          </optgroup>
+          <optgroup label="Group 3">
+            <option>Option 5</option>
+            <option>Option 6</option>
+          </optgroup>
+        </select>
+      </label>
+    </form>
+
+    <form>
+      <h3>What time is best to give you a call?</h3>
+      <label for="morning">
+        Morning
+        <input type="radio" id="morning" name="callTime" checked />
+      </label>
+      <label for="afternoon">
+        Afternoon
+        <input type="radio" id="afternoon" name="callTime" />
+      </label>
+      <label for="evening">
+        Evening
+        <input type="radio" id="evening" name="callTime" />
+      </label>
+    </form>
+
+    <form>
+      <h3>Select all the times that you are available:</h3>
+      <label for="morning">
+        Morning
+        <input type="checkbox" id="morning" name="callTime" checked />
+      </label>
+      <label for="afternoon">
+        Afternoon
+        <input type="checkbox" id="afternoon" name="callTime" />
+      </label>
+      <label for="evening">
+        Evening
+        <input type="checkbox" id="evening" name="callTime" />
+      </label>
+    </form>
+
+    <div>
+      <h3>
+        <code
+          >rgb(<span id="r">0</span>,<span id="g">0</span>,<span id="b">0</span
+          >)</code
+        >
+      </h3>
+      <h3>
+        <code
+          >#<span id="hexR">0</span><span id="hexG">0</span
+          ><span id="hexB">0</span></code
+        >
+      </h3>
+      <div id="colorBox"></div>
+      <div id="sliderBox">
+        <input
+          type="range"
+          value="0"
+          min="0"
+          max="255"
+          class="slider"
+          id="redSlider"
+        />
+        <input
+          type="range"
+          value="0"
+          min="0"
+          max="255"
+          class="slider"
+          id="greenSlider"
+        />
+        <input
+          type="range"
+          value="0"
+          min="0"
+          max="255"
+          class="slider"
+          id="blueSlider"
+        />
+        <input
+          hidden
+          type="range"
+          value="100"
+          min="0"
+          max="100"
+          class="slider"
+          id="alphaSlider"
+        />
+      </div>
+    </div>
+
+
+
+
+
+
+
+    
+
+    <footer>
+      <h3>&copy; My Company Name, 2017</h3>
+    </footer>
+  </body>
+</html>
