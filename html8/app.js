@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   };
 
   // input event listeners
-  redSlider.oninput = function () {
+  redSlider.oninput = function (e) {
     redOutput.innerHTML = this.value;
     redHexOutput.innerHTML = Number(this.value).toString(16);
     setColor();

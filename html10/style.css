@@ -1,0 +1,11 @@
+.container {
+  width: 20rem;
+  height: 30rem;
+  background-color: blue;
+  margin: auto;
+}
+
+#range {
+  margin: auto;
+  width: 20rem;
+}
