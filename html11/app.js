@@ -1,11 +1,11 @@
-const run = (n) => {
-  if (n === 1) {
-    return 1;
-  } else {
-    return n * run(n - 1);
-  }
-};
-console.log(run(5));
+// const run = (n) => {
+//   if (n === 1) {
+//     return 1;
+//   } else {
+//     return n * run(n - 1);
+//   }
+// };
+// console.log(run(5));
 
 // let button = document.createElement("button");
 // console.log(button);
@@ -15,10 +15,10 @@ console.log(run(5));
 //   document.querySelector("body").style.backgroundColor = "#342423";
 // }
 // button.innerHTML = "Click Me";
-// button.type = "button";
-const body = document.querySelector("body");
-// body.appendChild(button);
-const menu = document.querySelector("#contextMenu");
+// // button.type = "button";
+// const body = document.querySelector("body");
+// // body.appendChild(button);
+// const menu = document.querySelector("#contextMenu");
 
 // button.onclick = function () {
 //   const d = button.getAttribute("class");
@@ -107,3 +107,18 @@ const menu = document.querySelector("#contextMenu");
 // prev.onclick = function () {
 //   img.setAttribute("src", images[decrementIndex(currentIndex)]);
 // };
+
+const createTodo = () => {
+  //Creating our HTML element
+  const li = document.createElement("li");
+  const input = document.createElement("input");
+  const label = document.createElement("label");
+  const button = document.createElement("button");
+
+  //Setting the attribute of the HTMl element
+  input.setAttribute("type", "checkbox");
+  console.log(input)
+  li.appendChild(input);
+  console.log(li);
+};
+createTodo();
