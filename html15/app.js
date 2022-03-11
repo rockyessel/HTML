@@ -19,4 +19,8 @@ dimensions.boundedWidth =
 dimensions.boundedHeight =
   dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
 
-const svg = d3.select("#wrapper").append("svg");
+const wrapper = d3
+  .select("#wrapper")
+  .append("svg")
+  .attr("width", dimensions.width)
+  .attr("height", dimensions.height);
