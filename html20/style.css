@@ -13,4 +13,9 @@
   width: 10rem;
   filter: saturate(8);
   -webkit-filter: saturate(8);
+  transition: all 1s ease-in;
+  -webkit-transition: all 1s ease-in;
+  -moz-transition: all 1s ease-in;
+  -ms-transition: all 1s ease-in;
+  -o-transition: all 1s ease-in;
 }
