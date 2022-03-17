@@ -1,30 +1,10 @@
-//using "new" with function
-//new does 4 things
-//one, the new object is created
-// the new object is prototype linked
-// the new object set as "this" binding
+const express = require("express");
+const app = express();
+const things = require("./things.js");
 
-//if no return statement exist, then a copy of the new object is returned
+// the app.get(takes a route in '/' or '/route_name', then takes a callback function())
+app.use(things, things);
 
-log = console.log;
+app.get("/*");
 
-function Car(make, model) {
-  //   log(this);
-  let props = {
-    make,
-    model,
-  };
-  let info = function () {
-    return this.props;
-  };
-}
-
-let c1 = Car("Honda", "Accord");
-let c2 = new Car("Tesla", "model 3");
-log(c1);
-log(c2);
-
-function car(e) {
-  console.log(e.target);
-}
-car(e);
+app.listen(3090);
