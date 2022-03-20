@@ -1,0 +1,24 @@
+.dropdownMain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 11rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  background-color: #f1f1f1;
+  display: none;
+}
+
+input[type='text'] {
+  width: 10rem;
+  height: 100%;
+}
+
+.show {
+  display: block;
+}

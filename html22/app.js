@@ -13,7 +13,7 @@ const filterFunction = () => {
   let inputTextValue;
   for (let i = 0; i < a.length; i++) {
     inputTextValue = a[i].innerText || a[i].textContent;
-    if (inputTextValue.toLowerCase().indexOf(filter) > -1) {
+    if (inputTextValue.toLowerCase().indexOf(filter) !== -1) {
       a[i].style.display = '';
     } else {
       a[i].style.display = 'none';
