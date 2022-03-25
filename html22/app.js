@@ -14,9 +14,20 @@ const filterFunction = () => {
   for (let i = 0; i < a.length; i++) {
     inputTextValue = a[i].innerText || a[i].textContent;
     if (inputTextValue.toLowerCase().indexOf(filter) !== -1) {
-      a[i].style.display = '';
+      a[i].style.display = 'block';
     } else {
       a[i].style.display = 'none';
     }
   }
 };
+
+const post = async () => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+post();

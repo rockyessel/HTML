@@ -1,0 +1,20 @@
+.search_area {
+  width: 13.3rem;
+  border: solid 1px black;
+  border-radius: 05px;
+  -webkit-border-radius: 05px;
+  -moz-border-radius: 05px;
+  -ms-border-radius: 05px;
+  -o-border-radius: 05px;
+}
+
+input[type='text'] {
+  border: none;
+  outline: none;
+}
+
+button[type='submit'] {
+  border: none;
+  width: fit-content;
+  background-color: transparent;
+}
