@@ -32,9 +32,11 @@ const url = {
   quotes: `https://quotepark.com/quotes/recently-liked/?page=${quoteRandomNumber}`,
   author: `https://quotepark.com/authors/?page=${authorRandomNumber}`,
   author_qoutes: '',
+  base: 'https://quotepark.com',
 };
 
 //Quote
+const quotes = [];
 axios.get(url.quotes).then((res) => {
   const html = res.data;
   const $ = cheerio.load(html);
@@ -58,20 +60,22 @@ axios.get(url.quotes).then((res) => {
       .find('a')
       .text();
     const quoteTags = {
-      link: $(this).find('._gtm_quote_tag').attr('href'),
+      link: $(this).find('._gtm_quote_tag').first().attr('href'),
       tags: $(this).find('._gtm_quote_tag').text().trim().split(' '),
     };
     quotes.push({
       quoteContent,
-      quoteSource,
-      quoteTags,
-      authorLink,
+      quoteSource: `${url.base}${quoteSource}`,
+      authorLink: `${url.base}${authorLink}`,
       authorName,
-      authorThumbnail,
+      authorThumbnail: `${url.base}${authorThumbnail}`,
+      quoteTags: {
+        link: `${url.base}${quoteTags.link}`,
+        tags: quoteTags.tags,
+      },
     });
   });
 });
-const quotes = [];
 app.get('/quotes', (request, response) => {
   response.json(quotes);
 });
@@ -87,30 +91,42 @@ axios.get(url.author).then((res) => {
       .find('.media-author-name')
       .find('a')
       .text();
-    const image = $(this)
+    const authorLink = $(this)
+      .find('.media-body')
+      .find('.media-author-name')
+      .find('a')
+      .attr('href');
+    const image_thumbnail = $(this)
       .find('.media-author-img')
       .find('img')
       .attr('data-src');
     author.push({
       name,
-      image,
+      authorLink: `${url.base}${authorLink}`,
+      image_thumbnail: `${url.base}${image_thumbnail}`,
     });
   });
 });
 const author = [];
-console.log(author);
 app.get('/author', (request, response) => {
   response.json(author);
 });
 
-app.get('/author/:author_quote', (request, response) => {
-  const { author_quote } = request.params;
-  text = author_quote.replace(' ', '-').trim();
-  response.json(text)
-  // const author_quotes = [];
-});
+// Specific Author Quotes
 
-console.log(author);
+app.get('/author_quote', (request, response) => {
+  const name = [...author];
+  console.log(name);
+  const authorIndividualQuotes = name.map((individual) =>
+    individual.name
+      .toLowerCase()
+      .trim()
+      .replace(/ /g, '-')
+      .replace('.', '')
+      .replace(/[\u0300-\u036f]/g, '')
+  );
+  response.json(authorIndividualQuotes);
+});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
