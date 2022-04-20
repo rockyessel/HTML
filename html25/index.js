@@ -31,6 +31,7 @@ const authorRandomNumber = Math.floor(
 const url = {
   quotes: `https://quotepark.com/quotes/recently-liked/?page=${quoteRandomNumber}`,
   author: `https://quotepark.com/authors/?page=${authorRandomNumber}`,
+  author_qoutes: '',
 };
 
 //Quote
@@ -97,9 +98,19 @@ axios.get(url.author).then((res) => {
   });
 });
 const author = [];
+console.log(author);
 app.get('/author', (request, response) => {
   response.json(author);
 });
+
+app.get('/author/:author_quote', (request, response) => {
+  const { author_quote } = request.params;
+  text = author_quote.replace(' ', '-').trim();
+  response.json(text)
+  // const author_quotes = [];
+});
+
+console.log(author);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
