@@ -119,19 +119,17 @@ axios.get(url.author).then((res) => {
 });
 const author = [];
 app.get('/author', (request, response) => {
-  // console.log(author);
   response.json(author);
 });
 
 // Specific Author Quotes
-
 app.get('/author/:quotes', (request, response) => {
   const { quotes } = request.params;
-  console.log('params:', quotes);
 
   const individualName = latinize(
     quotes.trim().toLowerCase().replace(/ /g, '-').replace('.', '').toString()
   );
+  let num;
   const address = `https://quotepark.com/authors/${individualName}/`;
 
   const searchAuthor = [];
@@ -157,7 +155,16 @@ app.get('/author/:quotes', (request, response) => {
         .find('.quote')
         .find('.blockquote')
         .find('.blockquote-text')
-        .text();
+        .text()
+        .replaceAll('„', '|')
+        .replaceAll('“', '')
+        .split('|');
+      const $number =
+        Number($(this).find('.text-center').find('progress').attr('max')) / 20;
+
+      const random = Math.floor(Math.random() * Math.ceil($number));
+      // num.push(random);
+
       searchAuthor.push({
         author_details: {
           header: $h1,
@@ -166,8 +173,9 @@ app.get('/author/:quotes', (request, response) => {
           bio: $description,
         },
         quotes: {
-          quotes_content: [$quotes],
+          quotes_content: $quotes,
           author: $name,
+          number_of_pages: Math.ceil($number),
         },
       });
       response.json(searchAuthor);
