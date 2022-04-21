@@ -3,6 +3,7 @@ const app = express();
 const axios = require('axios');
 const PORT = process.env.PORT || 4000;
 const cheerio = require('cheerio');
+const latinize = require('latinize');
 
 app.get('/', (request, response) => {
   response.json({
@@ -114,18 +115,17 @@ app.get('/author', (request, response) => {
 
 // Specific Author Quotes
 
-app.get('/author_quote', (request, response) => {
-  const name = [...author];
-  console.log(name);
-  const authorIndividualQuotes = name.map((individual) =>
-    individual.name
-      .toLowerCase()
-      .trim()
-      .replace(/ /g, '-')
-      .replace('.', '')
-      .replace(/[\u0300-\u036f]/g, '')
+app.get('/author/:quotes', (request, response) => {
+  const { quotes } = request.params;
+  const name = latinize(
+    quotes.trim().toLowerCase().replace(/ /g, '-').replace('.', '')
   );
-  response.json(authorIndividualQuotes);
+  console.log(author);
+
+  const a = author.map((name) => {
+    const True = latinize(name.name) === name;
+  });
+  response.json({ l: a });
 });
 
 app.listen(PORT, () => {
