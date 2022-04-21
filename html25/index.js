@@ -102,7 +102,16 @@ axios.get(url.author).then((res) => {
       .find('img')
       .attr('data-src');
     author.push({
-      name,
+      native_name: name,
+      eng_name: latinize(name),
+      slug_name: latinize(
+        name
+          .trim()
+          .toLowerCase()
+          .replace(/ /g, '-')
+          .replaceAll('.', '')
+          .toString()
+      ),
       authorLink: `${url.base}${authorLink}`,
       image_thumbnail: `${url.base}${image_thumbnail}`,
     });
@@ -110,6 +119,7 @@ axios.get(url.author).then((res) => {
 });
 const author = [];
 app.get('/author', (request, response) => {
+  // console.log(author);
   response.json(author);
 });
 
@@ -117,15 +127,52 @@ app.get('/author', (request, response) => {
 
 app.get('/author/:quotes', (request, response) => {
   const { quotes } = request.params;
-  const name = latinize(
-    quotes.trim().toLowerCase().replace(/ /g, '-').replace('.', '')
-  );
-  console.log(author);
+  console.log('params:', quotes);
 
-  const a = author.map((name) => {
-    const True = latinize(name.name) === name;
+  const individualName = latinize(
+    quotes.trim().toLowerCase().replace(/ /g, '-').replace('.', '').toString()
+  );
+  const address = `https://quotepark.com/authors/${individualName}/`;
+
+  const searchAuthor = [];
+
+  axios.get(address).then((res) => {
+    const { data: $html } = res;
+    const $ = cheerio.load($html);
+
+    $('.col-lg-8').each(function () {
+      const $h1 = $(this).find('h1').text();
+      const $name = $(this).find('.col-sm-6').find('.media-heading').text();
+      const $img = $(this)
+        .find('.col-sm-6')
+        .find('div')
+        .find('img')
+        .attr('src');
+      const $description = $(this)
+        .find('.col-sm-12')
+        .find('.readmore')
+        .find('p')
+        .text();
+      const $quotes = $(this)
+        .find('.quote')
+        .find('.blockquote')
+        .find('.blockquote-text')
+        .text();
+      searchAuthor.push({
+        author_details: {
+          header: $h1,
+          name: $name,
+          img: `${url.base}${$img}`,
+          bio: $description,
+        },
+        quotes: {
+          quotes_content: [$quotes],
+          author: $name,
+        },
+      });
+      response.json(searchAuthor);
+    });
   });
-  response.json({ l: a });
 });
 
 app.listen(PORT, () => {
