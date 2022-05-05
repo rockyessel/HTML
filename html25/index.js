@@ -32,53 +32,53 @@ const authorRandomNumber = Math.floor(
 const url = {
   quotes: `https://quotepark.com/quotes/recently-liked/?page=${quoteRandomNumber}`,
   author: `https://quotepark.com/authors/?page=${authorRandomNumber}`,
-  author_qoutes: '',
   base: 'https://quotepark.com',
 };
+console.log(quoteRandomNumber);
 
 //Quote
-const quotes = [];
-axios.get(url.quotes).then((res) => {
-  const html = res.data;
-  const $ = cheerio.load(html);
-
-  $('.quote-body', html).each(function () {
-    const text = $(this).find('.blockquote-text').find('a').text();
-    const quoteContent = text.trim();
-    const quoteSource = $(this)
-      .find('.blockquote')
-      .find('.blockquote-text')
-      .find('a')
-      .attr('href');
-    const authorThumbnail = $(this)
-      .find('.quote-thumbnail')
-      .find('.lazy')
-      .attr('data-src');
-    const authorLink = $(this).find('.quote-thumbnail').attr('href');
-    const authorName = $(this)
-      .find('.blockquote')
-      .find('.blockquote-origin')
-      .find('a')
-      .text();
-    const quoteTags = {
-      link: $(this).find('._gtm_quote_tag').first().attr('href'),
-      tags: $(this).find('._gtm_quote_tag').text().trim().split(' '),
-    };
-    quotes.push({
-      quoteContent,
-      quoteSource: `${url.base}${quoteSource}`,
-      authorLink: `${url.base}${authorLink}`,
-      authorName,
-      authorThumbnail: `${url.base}${authorThumbnail}`,
-      quoteTags: {
-        link: `${url.base}${quoteTags.link}`,
-        tags: quoteTags.tags,
-      },
-    });
-  });
-});
 app.get('/quotes', (request, response) => {
-  response.json(quotes);
+  axios.get(url.quotes).then((res) => {
+    const html = res.data;
+    const $ = cheerio.load(html);
+    const quotes = [];
+
+    $(' .quote-body', html).each(function () {
+      const text = $(this).find('.blockquote-text').find('a').text();
+      const quoteContent = text.trim();
+      const quoteSource = $(this)
+        .find('.blockquote')
+        .find('.blockquote-text')
+        .find('a')
+        .attr('href');
+      const authorThumbnail = $(this)
+        .find('.quote-thumbnail')
+        .find('.lazy')
+        .attr('data-src');
+      const authorLink = $(this).find('.quote-thumbnail').attr('href');
+      const authorName = $(this)
+        .find('.blockquote')
+        .find('.blockquote-origin')
+        .find('a')
+        .text();
+      const quoteTags = {
+        link: $(this).find('._gtm_quote_tag').first().attr('href'),
+        tags: $(this).find('._gtm_quote_tag').first().text().trim().split(' '),
+      };
+      quotes.push({
+        quoteContent,
+        quoteSource: `${url.base}${quoteSource}`,
+        authorLink: `${url.base}${authorLink}`,
+        authorName,
+        authorThumbnail: `${url.base}${authorThumbnail}`,
+        quoteTags: {
+          link: `${url.base}${quoteTags.link}`,
+          tags: quoteTags.tags,
+        },
+      });
+    });
+    response.json(quotes);
+  });
 });
 
 //Author
@@ -129,12 +129,10 @@ app.get('/author/:quotes', (request, response) => {
   const individualName = latinize(
     quotes.trim().toLowerCase().replace(/ /g, '-').replace('.', '').toString()
   );
-  let num;
-  const address = `https://quotepark.com/authors/${individualName}/`;
 
   const searchAuthor = [];
 
-  axios.get(address).then((res) => {
+  axios.get(authorAddress).then((res) => {
     const { data: $html } = res;
     const $ = cheerio.load($html);
 
@@ -163,7 +161,6 @@ app.get('/author/:quotes', (request, response) => {
         Number($(this).find('.text-center').find('progress').attr('max')) / 20;
 
       const random = Math.floor(Math.random() * Math.ceil($number));
-      // num.push(random);
 
       searchAuthor.push({
         author_details: {
