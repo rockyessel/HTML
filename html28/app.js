@@ -13,60 +13,29 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  const fetchAPI = async (url) => {
-    const response = await fetch(url, {
-      method: 'GET',
-      'Content-Type': 'application/json',
-      'X-local': 'en_US',
-      Authorization: 'Bearer',
-    });
-    const data = await response.json();
-    console.log(data);
-  };
-  fetchAPI('https://apis-sandbox.fedex.com/');
-  res.send('hio');
-});
-
-app.get('/api', (req, res) => {
-  let arr = [];
-  const fetchAPI = async () => {
-    const res = await fetch('https://apis-sandbox.fedex.com/oauth/token', {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'X-locale': 'en_US',
-      Authorization: 'Bearer ',
-    });
-
-    const data = await res.json();
-    arr.push(data);
-    console.log(data);
-  };
-  fetchAPI();
-  res.json(arr);
-});
-
-
 app.post('/api', (req, res) => {
-  let arr = [];
-  const fetchAPI = async () => {
-    const res = await fetch(
+  const { trackingNumber, shipDateBegin, Enum } = req.body;
+  const obj = { trackingNumber, shipDateBegin, Enum };
+  console.log(trackingNumber);
+  const post = async () => {
+    const response = await fetch(
       'https://apis-sandbox.fedex.com/track/v1/associatedshipments',
       {
+        method: 'POST',
         headers: {
-          'Content-Type': 'applicaton/json',
-          'X-locale': 'en_US',
+          'Content-Type': 'application/json',
+          'X-locale': 'en-US',
           Authorization:
-            'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJDWFMiLCJTRUNVUkUiXSwiUGF5bG9hZCI6ImFLcEpEZEJ1MXN4WmY3bEpFOUxxd2g3OEFCZ3FCSzcxa2hvdkRnWHpWWUx6bC9mWXZUc1VyemJpL3g3M1R5YThEa2FVbnN1N2FYeUFYZ1FXb3FpUXdJV21tTXo3R2hUZldRT3VBbCtoWm1OSnpXSVAwQlF4UlFsN0FCMjJOdUNwZHVnNTNuV0d0RzVFQTltR3lET2NCcityeSswMkpUd0c4R3RDS1BYa05uRHY4WHJGSU90ajlVbXNRaGJqeG93SzQxS3dzSWVIcWdzYzFQRllqNnA3Q0RVeHY5Y0hzMEIzdnV3cUlRbXFiSlBSVVAyaWljS1JyY3RYTHczOWZqdFZXTHVud1FHZ0xtYk5YMWVyb21oSVEvaHJRQzZMWTJwTHd0bGFaRkdRVzNFPSIsImV4cCI6MTY1MTk2ODkzNSwianRpIjoiNjA1MmJiMjQtNjJlZC00YzU1LTgwMjAtNDFiM2YxMDQzOWVhIiwiY2xpZW50X2lkIjoibDcwMDQ2ZTExMzE0YTk0YmI1YWZkZGNiYjRhZGYwZmQxOSJ9.QbIsTfH_R9oGbHbMd90wicZJBPxuGiS6nQKn6ap0NZyKLEVUXOS9MZydswOHIhjVdccs4x0x1I8poOGJmYnL2Arnr54DqPareZyQesxBfKU8hcOfvdR6QwqKyD7QWpHtBj53tZlJvFi9U-sccaR8W2FsWJa-jVu2VEX14LJ4U8PsGopG9WnHoraGq02YcREhpQDxtpqGZtEIPRD9LAAkuQBewvQxxEorHi3qNY5mLoYAkFkiqk3M3YNi15B_kja91n1xDaDgKAAsngFOnXgRTqVFh6RZTqT9jLKKVfUxjoS9_sTegLWx2zpCKZddr_cF12knnfdChkbkPP86iY-_vozc8E8key6cA4C2eb0_mVFk9kCcVfrnbSIMr4R7A4evS8rVyCXTzKWIIAX4b5STttQcv0BqAZCreCfgt-lIvaOxmXhlTIXBhCxw3SKgPnTyLfUQ4T2tf7OToh2toDeOxc0YjLzGZNYCvWmwBH-cEVxObk3UcC9fnFX4C6iF0TfGOofcqWD5bAtCqefm47AXaieqDO0wQ3NOGf5eIZTD08_o_-QOqMgbUggo7pTVFLkRJ_v454V4yb7KxpzUyUgF746gm5PrjSORg0mXPySjCL2wevzM_x5dxMYNgAyoQHgg2u0y-u8saaMlG5HgJr8St08L7VRJlFrjR-T5OdFW-xM',
+            'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJDWFMiLCJTRUNVUkUiXSwiUGF5bG9hZCI6ImFLcEpEZEJ1MXN4WmY3bEpFOUxxd2g3OEFCZ3FCSzcxa2hvdkRnWHpWWUx6bC9mWXZUc1VyemJpL3g3M1R5YThEa2FVbnN1N2FYeUFYZ1FXb3FpUXdJV21tTXo3R2hUZldRT3VBbCtoWm1OSnpXSVAwQlF4UlFsN0FCMjJOdUNwZHVnNTNuV0d0RzVFQTltR3lET2NCcityeSswMkpUd0c4R3RDS1BYa05uRHY4WHJGSU90ajlVbXNRaGJqeG93SzJvRHJzM3c1a1JVc1pXNFhGUTljVmpVeHY5Y0hzMEIzdnV3cUlRbXFiSlBSVVAyaWljS1JyY3RYTHczOWZqdFZXTHVud1FHZ0xtYk5YMWVyb21oSVEvaHJRQzZMWTJwTHd0bGFaRkdRVzNFPSIsImV4cCI6MTY1MTk2OTc1NCwianRpIjoiYzM1NTM1MzYtMjlmMy00MDY0LWFkZGYtYTU3ZGRhOTI1NWI5IiwiY2xpZW50X2lkIjoibDcwMDQ2ZTExMzE0YTk0YmI1YWZkZGNiYjRhZGYwZmQxOSJ9.GfxO_e2Xc0-1ULJyqGhTjV-l3IarzpAsh5lDubZSY7m49gRFrpptCKYh2iEvdiLeD5D7VkwcTt4TgawhMoCg8scs3SXrOaV_VDVg4XHIohIaUbLLURtPcoGkdydcV4_Ey3hR6XbbcUqFZ3UNQjvuBrYNX_tSPdgx1KTTVsuUn3M28agAcrdqHtzK4YMMgJuBcKsY62dwHjcNvQnXHCK4D70EV5pfsbLPg0dpqEhu32joi2t22lcmYKrKzdlHEUfHp-eiOV7kWM51uq0btTfPBBaNuJ5MAZKx7kXiY28vznmCUJBZurw4J25WUQTHGHJbJowkZ4H1IUKuV4bUWnvLHLKxebNIcaK8O2o4M9VvD7MNrdWFftfFpB_TZWuoga1nIZAnBiKensIPgfZHQsmzTvZss8gVO-9hcEsC5RwPgls5lRj-txur3hlT-E-2RrqJdtUrwFI6xStvF7LBCS79F9Hnm7A3bOMi1NpXutBtJKTyJo7Fz2bkqFZVocdjpQzcPxGR0MmY5vdiMG9LPQBY-mH262iksfYN4EmiFCTzSx9-LllyxhR292gUKZ6nR98hGAlhtfA8BAMFQx2-1o806FRSg7gqxm97AQFnZ4R8bwkBmL3J-LdaT_z_pQumrlTgjeepTzWaxIbo-v5JeqMHyY9zdX2-C-X7WQ99XK8QKpg',
         },
+        body: JSON.stringify(obj),
       }
     );
 
-    const data = await res.json();
-    arr.push(data);
+    const data = await response.json();
     console.log(data);
   };
-  fetchAPI();
-  res.json(arr);
+  post();
 });
 
 app.listen(PORT, (req, res) => {
