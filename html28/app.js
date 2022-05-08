@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
 const PORT = process.env.PORT || 4000;
 
 const app = express();
@@ -17,19 +18,27 @@ app.post('/', (req, res) => {
   const { grant_type, client_id, client_secret } = req.body;
   const obj = { grant_type, client_id, client_secret };
   console.log(obj);
-  const post = async () => {
-    const response = await fetch('https://apis-sandbox.fedex.com/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(obj),
-    });
+  const posts = async () => {
+    try {
+      const response = await axios.post(
+        'https://apis-sandbox.fedex.com/oauth/token',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify(obj),
+        }
+      );
 
-    const data = await response.json();
-    console.log(data);
+      const data = await response.data;
+      console.log(data);
+    } catch (error) {
+      console.log(data.errors);
+      throw new Error(error.message);
+    }
   };
-  post();
+  posts();
 });
 
 app.post('/api', (req, res) => {
@@ -39,7 +48,7 @@ app.post('/api', (req, res) => {
     shipDateBegin,
   };
   console.log(trackingNumber);
-  const post = async () => {
+  const posts = async () => {
     const response = await fetch(
       'https://apis-sandbox.fedex.com/track/v1/associatedshipments',
       {
@@ -47,8 +56,7 @@ app.post('/api', (req, res) => {
         headers: {
           'Content-Type': 'application/json',
           'X-locale': 'en-US',
-          Authorization:
-           `Bearer ${process.env.TOKEN}`,
+          Authorization: `Bearer ${process.env.TOKEN}`,
         },
         body: JSON.stringify(masterTrackingNumberInfo),
       }
@@ -57,7 +65,7 @@ app.post('/api', (req, res) => {
     const data = await response.json();
     console.log(data);
   };
-  post();
+  posts();
 });
 
 app.listen(PORT, (req, res) => {
