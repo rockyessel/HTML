@@ -1,7 +1,8 @@
-const cors = require('cors');
 // DHL API INTEGRATION
-const dhlURL =
-  'https://api-eu.dhl.com/track/shipments?trackingNumber=7777777770';
+
+const tracking_numbers = ['5100045086', 'JJD0099999999'];
+
+const dhlURL = `https://api-eu.dhl.com/track/shipments?trackingNumber=${tracking_numbers[0]}`;
 
 const fetchData = async (dhlURL) => {
   const response = await fetch(dhlURL, {

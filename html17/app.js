@@ -36,7 +36,7 @@ http
           res.end();
         });
       });
-    } else {
+    } else {o
       res.writeHead(200, {
         "Content-Type": "text/html",
       });
@@ -45,7 +45,7 @@ http
       );
       res.write('<input type="file" name="fileupload"><br>');
       res.write('<input type="submit">');
-      res.write("</from>");
+      res.write("</frm>");
     }
   })
   .listen(8080);
