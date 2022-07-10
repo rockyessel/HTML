@@ -1,6 +1,6 @@
 // DHL API INTEGRATION
 
-const tracking_numbers = ['5100045086', 'JJD0099999999'];
+const tracking_numbers = ['5100045086', 'S100425', 'R900895'];
 
 const dhlURL = `https://api-eu.dhl.com/track/shipments?trackingNumber=${tracking_numbers[0]}`;
 
