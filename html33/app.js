@@ -1,28 +1,32 @@
 const express = require('express');
 const axios = require('axios');
+const { load } = require('cheerio');
 const PORT = 4000;
 
 const app = express();
 
-const getData = async () => {
-  try {
-    const response = await axios.get(
-      `https://content.guardianapis.com/business?page=1&api-key=062dbc77-1e5d-4f2e-942c-db2dc97a8f22`
-    );
+app.get('/where/:country_name', async (req, res) => {
+  const { country_name } = req.params;
 
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+  let country_data = [];
 
-app.get('/', async function (req, res) {
-  const data = await getData();
+  const url = `https://www.aljazeera.com/where/${country_name}`;
 
-  res.json(data);
+  const { data: html } = await axios.get(`${url}`);
+  const $ = load(html);
+
+  $('main.container--section-top-grid', html).each(function () {
+    const $this = $(this);
+    const title = $this.find('.featured-articles-list').find('h3').text();
+    const url = $this.find('div.gc__content').find('a').attr();
+
+    country_data.push({ title, url });
+
+    console.log(country_data);
+    res.json(country_data);
+  });
 });
 
 app.listen(PORT, () => {
-  console.log(`ready`);
+  console.log('Ready');
 });
